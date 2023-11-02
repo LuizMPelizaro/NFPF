@@ -7,16 +7,15 @@ class DataAnalyses:
 
     def __init__(self, csv_filename):
         self._csv_filename = csv_filename
-        try:
-            self._dataframe = pd.read_csv(csv_filename)
-        except FileNotFoundError as e:
-            return e
+        self._dataframe = pd.read_csv(csv_filename)
 
     def __filter_columns_info(self, columns: list[str]) -> dict:
         """
-        Return dataframe info per columns, type and number of unique values
-        :param columns: Name of columns to consult
-        :return: Dict with infos.
+        Filters the information from the specified columns.
+        Args:
+            columns: Name of columns to consult
+        Returns:
+            Return dataframe info per columns, type and number of unique values
         """
         dataframe = self.dataframe
         dict_infos = {}
@@ -29,8 +28,10 @@ class DataAnalyses:
     def get_infos(self, columns: list[str]) -> None:
         """
         Print infos of columns in console.
-        :param columns: columns to check infos.
-        :return: None
+        Args:
+            columns: columns to check infos.
+        Returns:
+            None
         """
         try:
             infos = self.__filter_columns_info(columns)
@@ -43,8 +44,10 @@ class DataAnalyses:
     def get_info_per(self, column: list[str]) -> None:
         """
         Create a DataFrame with the number of unique values per column, grouped by the specified column.
-        :param column: list of columns to group.
-        :return: None
+        Args:
+            List of columns to group.
+        Returns:
+            None
         """
         try:
             dataframe = self.dataframe.copy()
@@ -59,8 +62,10 @@ class DataAnalyses:
         """
         Separate the dataframe by a specific column, e.g., State, retrieve all the data for that state, and place it in
         a new dataframe.
-        :param column:The column by which the grouping will be done.
-        :return:None
+        Args:
+            column:The column by which the grouping will be done.
+        Returns:
+            None
         """
         try:
             dataframe = self.dataframe.copy()

@@ -9,3 +9,5 @@ profile:
   name: qodana.starter
 
 linter: jetbrains/qodana-python:latest
+
+bootstrap: pip install -r requirements.txt
