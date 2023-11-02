@@ -1,13 +1,16 @@
 import pandas as pd
 from pandas.errors import InvalidColumnName
-from src.utils.utils_pandas import get_dataframe, create_csvfile
+from src.utils.utils_pandas import create_csvfile
 
 
 class DataAnalyses:
 
     def __init__(self, csv_filename):
         self._csv_filename = csv_filename
-        self._dataframe = get_dataframe(csv_filename)
+        try:
+            self._dataframe = pd.read_csv(csv_filename)
+        except FileNotFoundError as e:
+            return e
 
     def __filter_columns_info(self, columns: list[str]) -> dict:
         """
