@@ -5,7 +5,6 @@ import cdsapi
 from src.exceptions.grib_dowload import DownloadDataERA5Exceptions
 
 
-# todo Criar classe para download dos arquivos do era 5
 class DownloadDataERA5:
     # 13.881
     # <- 2.703
@@ -15,9 +14,6 @@ class DownloadDataERA5:
                  compress_type: str):
         self.name_dataframe = name_dataframe
         self.type_compress = compress_type
-
-    # todo verificar se a variavel tem os tipos de escolha, caso não, não é nescessario passa todos o parametros.
-    # todo para cada ano e cada variavel repetir o processo.
 
     def download(self, input_dict):
         c = cdsapi.Client(key=f"{'262360'}:{'1c48e7d7-e52b-49ab-b349-2fff684dbceb'}", url="https://cds.climate.copernicus.eu/api/v2")
