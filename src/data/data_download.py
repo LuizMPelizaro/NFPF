@@ -2,10 +2,13 @@ import os
 
 import cdsapi
 
-from src.exceptions.grib_dowload import DownloadDataERA5Exceptions
+from src.exceptions.data_download import DownloadDataERA5Exceptions
+from dotenv import load_dotenv
 
 
 class DownloadDataERA5:
+    load_dotenv()
+
     # 13.881
     # <- 2.703
     # -> 14.678
@@ -16,7 +19,8 @@ class DownloadDataERA5:
         self.type_compress = compress_type
 
     def download(self, input_dict):
-        c = cdsapi.Client(key=f"{'262360'}:{'1c48e7d7-e52b-49ab-b349-2fff684dbceb'}", url="https://cds.climate.copernicus.eu/api/v2")
+        c = cdsapi.Client(key=f"{os.environ.get('UID')}:{os.environ.get('APIKEY')}",
+                          url="https://cds.climate.copernicus.eu/api/v2")
         if self._validate_dict_to_download(input_dict):
             for variable in input_dict.get('variable'):
                 for year in input_dict.get('year'):
@@ -70,7 +74,6 @@ class DownloadDataERA5:
 
 
 if __name__ == '__main__':
-
     test = DownloadDataERA5('sis-agroproductivity-indicators', 'tgz')
     data_sis_agroproductivity_indicators = {
         'format': 'tgz',
