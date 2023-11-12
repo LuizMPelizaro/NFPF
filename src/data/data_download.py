@@ -13,10 +13,8 @@ class DownloadDataERA5:
     # <- 2.703
     # -> 14.678
     # 3.996
-    def __init__(self, name_dataframe: str,
-                 compress_type: str):
+    def __init__(self, name_dataframe: str):
         self.name_dataframe = name_dataframe
-        self.type_compress = compress_type
 
     def download(self, input_dict):
         c = cdsapi.Client(key=f"{os.environ.get('UID')}:{os.environ.get('APIKEY')}",
@@ -25,7 +23,7 @@ class DownloadDataERA5:
             for variable in input_dict.get('variable'):
                 for year in input_dict.get('year'):
                     c.retrieve(self.name_dataframe, self._format_dict_to_download(input_dict, variable, year),
-                               f'{self.name_dataframe}.{self.type_compress}')
+                               f'../../data/external_dataframe/{self.name_dataframe}_{year}_{variable}.{input_dict.get("format")}')
                     print('Success download !')
 
     @staticmethod
@@ -63,8 +61,6 @@ class DownloadDataERA5:
     def _validate_generic_dict(self, input_dict, expected_keys, mandatory_fields=None):
         if not all(key in input_dict for key in expected_keys):
             return False
-        if input_dict.get('format') != self.type_compress:
-            return False
         if mandatory_fields:
             for field in mandatory_fields:
                 if len(input_dict.get(field, [])) < 1:
@@ -74,20 +70,72 @@ class DownloadDataERA5:
 
 
 if __name__ == '__main__':
-    test = DownloadDataERA5('sis-agroproductivity-indicators', 'tgz')
-    data_sis_agroproductivity_indicators = {
-        'format': 'tgz',
-        'growing_season': '1st_season_per_campaign',
-        'crop_type': 'maize',
-        'product_family': 'crop_productivity_indicators',
-        'variable': ['crop_development_stage'],
-        'year': ['2002'],
-        'month': [
-            '01', '03', '05',
-            '07', '08', '10',
-            '12',
-        ],
-        'harvest_year': '2002',
-        'day': '31',
-    }
-    test.download(data_sis_agroproductivity_indicators)
+    # test = DownloadDataERA5('sis-agroproductivity-indicators')
+    years = ['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011',
+             '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
+    # grow_seasons = ['1st_season_per_campaign', '2st_season_per_campaign']
+    # crops = ['maize', 'soybean', 'spring_wheat', 'wet_rice', 'winter_wheat']
+    # variables = ['total_above_ground_production', 'crop_development_stage', 'total_weight_storage_organs']
+    # for crop in crops:
+    #     for year in years:
+    #         for variable in variables:
+    #             print(f'{crop}, {variable}, {year} ')
+    #             data_sis_agroclimatic_indicators = {
+    #                 'format': 'tgz',
+    #                 'product_family': ['crop_productivity_indicators'],
+    #                 'variable': [variable],
+    #                 'crop_type': [crop],
+    #                 'year': [year],
+    #                 'day': [
+    #                     '10', '20', '28',
+    #                     '30', '31',
+    #                 ],
+    #                 'month': [
+    #                     '01', '02', '03',
+    #                     '04', '05', '06',
+    #                     '07', '08', '09',
+    #                     '10', '11', '12',
+    #                 ],
+    #                 'harvest_year': [year],
+    #                 'growing_season': '1st_season_per_campaign',
+    #             }
+    #             test.download(data_sis_agroclimatic_indicators)
+
+    test = DownloadDataERA5('sis-agrometeorological-indicators')
+    variables = ['2m_temperature']
+    statistcs = [
+        '24_hour_maximum', '24_hour_mean', '24_hour_minimum',
+        'day_time_maximum', 'day_time_mean', 'night_time_mean',
+        'night_time_minimum',
+    ]
+    for variable in variables:
+        for statistc in statistcs:
+            data_download = {
+                'version': '1_1',
+                'format': 'tgz',
+                'variable': '2m_temperature',
+                'statistic': [statistc],
+                'year': '2002',
+                'month': [
+                    '01', '02', '03',
+                    '04', '05', '06',
+                    '07', '08', '09',
+                    '10', '11', '12',
+                ],
+                'day': ['01', '02', '03',
+                        '04', '05', '06',
+                        '07', '08', '09',
+                        '10', '11', '12',
+                        '13', '14', '15',
+                        '16', '17', '18',
+                        '19', '20', '21',
+                        '22', '23', '24',
+                        '25', '26', '27',
+                        '28', '29', '30',
+                        '31', ],
+                'area': [
+                    13.88, 2.7, 3.99,
+                    14.67,
+                ],
+            }
+            test.download(data_download)
