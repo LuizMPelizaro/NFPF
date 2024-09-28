@@ -112,16 +112,3 @@ class DataProcess:
         logger.info(f'Save dataframes.')
         self.__save_data()
         logger.success('Done process data.')
-
-
-if __name__ == '__main__':
-    path_of_dataframe = sys.argv[1]
-    path_to_save_dataframes = sys.argv[2]
-    columns_to_remove = sys.argv[3]
-    path_to_save_logs = sys.argv[4]
-
-    dp = DataProcess(dataframe_path=path_of_dataframe,
-                     path_to_save=path_to_save_dataframes,
-                     columns_to_remove=columns_to_remove,
-                     path_to_save_logs=path_to_save_logs)
-    dp.process()

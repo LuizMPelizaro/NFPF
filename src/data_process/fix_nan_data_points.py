@@ -75,8 +75,3 @@ class FixNanDataPoints:
                 logger.info(f'saving {dataframe}.')
                 self.__save_data(df_reindex, dataframe)
         logger.success(f'Success fixing data.')
-
-
-if __name__ == '__main__':
-    fix = FixNanDataPoints('../../data/processed', ['price', 'usdprice'])
-    fix.apply_fix()
